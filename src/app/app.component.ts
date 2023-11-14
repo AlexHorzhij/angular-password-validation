@@ -23,7 +23,14 @@ export class AppComponent {
 
   constructor(private validateService: ValidateService) {}
 
+  checkLang(value) {
+    if (!/^[a-zA-Z0-9]/.test(value)) {
+      alert('You can use only latin characters!');
+    }
+  }
+
   getInputValue(value: string) {
+    this.checkLang(value);
     this.inputValue = value;
     this.passwordReliability = this.validateService.validatePassword(
       this.inputValue || ''

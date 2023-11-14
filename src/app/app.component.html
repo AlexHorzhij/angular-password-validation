@@ -1,5 +1,9 @@
 <section class="container">
-  <input class="passwordInput" (input)="getInputValue($event.target.value)" />
+  <input
+    type="text"
+    class="passwordInput"
+    (input)="getInputValue($event.target.value)"
+  />
   <h1
     class="validation_message"
     [ngStyle]="{ color: getStyleForMediumPassword() }"
