@@ -1,0 +1,25 @@
+<section class="container">
+  <input class="passwordInput" (input)="getInputValue($event.target.value)" />
+  <h1
+    class="validation_message"
+    [ngStyle]="{ color: getStyleForMediumPassword() }"
+  >
+    {{ getValidationMessage() }}
+  </h1>
+  <div class="validation">
+    <div
+      [ngStyle]="{ backgroundColor: getStyleForEasyPassword() }"
+      class="validation_item"
+    ></div>
+
+    <div
+      [ngStyle]="{ backgroundColor: getStyleForMediumPassword() }"
+      class="validation_item"
+    ></div>
+
+    <div
+      [ngStyle]="{ backgroundColor: getStyleForStrongPassword() }"
+      class="validation_item"
+    ></div>
+  </div>
+</section>
