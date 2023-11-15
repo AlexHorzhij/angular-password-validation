@@ -1,79 +1,61 @@
-import { Component, Input } from '@angular/core';
-import { ValidateService } from './services/validate.service';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  @Input() value: string;
-
-  title = 'angular-validation';
-
-  inputValue: string;
-  validationMessage = 'Please enter your password';
-  passwordReliability = 'empty';
-  colors = {
+  private colors = {
     gray: 'rgb(147, 142, 142)',
     red: 'rgb(255, 21, 0)',
     yellow: 'rgb(255, 255, 0)',
     green: 'rgb(22, 183, 22)',
   };
 
-  constructor(private validateService: ValidateService) {}
+  public validationMessage = 'Please enter your password';
+  public easyStyle = this.colors.gray;
+  public mediumStyle = this.colors.gray;
+  public strongStyle = this.colors.gray;
 
-  checkLang(value: string) {
-    if (!/[a-zA-Z0-9]/.test(value)) {
-      alert('You can use only latin characters!');
-    }
-  }
+  public formGroup = new FormGroup({
+    password: new FormControl(''),
+  });
 
-  getInputValue(value: string) {
-    this.checkLang(value);
-    this.inputValue = value;
-    this.passwordReliability = this.validateService.validatePassword(
-      this.inputValue || ''
-    );
-  }
+  constructor() {}
 
-  getValidationMessage() {
-    if (this.passwordReliability === 'short') {
-      return 'The password is too short';
+  onInputChange(value: string) {
+    if (value === 'empty') {
+      this.validationMessage = 'Enter your password';
+      this.easyStyle = this.colors.gray;
+      this.mediumStyle = this.colors.gray;
+      this.strongStyle = this.colors.gray;
     }
-    if (this.passwordReliability === 'easy') {
-      return 'The password is too easy';
+    if (value === 'short') {
+      this.validationMessage = 'The password is too short';
+      this.easyStyle = this.colors.red;
+      this.mediumStyle = this.colors.red;
+      this.strongStyle = this.colors.red;
     }
-    if (this.passwordReliability === 'medium') {
-      return 'The password isn`t very strong';
+    if (value === 'easy') {
+      this.validationMessage = 'The password is too easy';
+      this.easyStyle = this.colors.red;
+      this.mediumStyle = this.colors.gray;
+      this.strongStyle = this.colors.gray;
     }
-    if (this.passwordReliability === 'strong') {
-      return 'This password strong';
+    if (value === 'medium') {
+      this.validationMessage = 'The password isn`t very strong';
+      this.easyStyle = this.colors.yellow;
+      this.mediumStyle = this.colors.yellow;
+      this.strongStyle = this.colors.gray;
     }
-    return 'Enter your password';
-  }
-
-  getStyleForEasyPassword() {
-    if (this.passwordReliability === 'short') return this.colors.red;
-    if (
-      this.passwordReliability === 'easy' ||
-      this.passwordReliability === 'medium'
-    ) {
-      return this.colors.yellow;
+    if (value === 'strong') {
+      this.validationMessage = 'This password is strong';
+      this.easyStyle = this.colors.green;
+      this.mediumStyle = this.colors.green;
+      this.strongStyle = this.colors.green;
     }
-    if (this.passwordReliability === 'strong') return this.colors.green;
-    return this.colors.gray;
-  }
-
-  getStyleForMediumPassword() {
-    if (this.passwordReliability === 'short') return this.colors.red;
-    if (this.passwordReliability === 'medium') return this.colors.yellow;
-    if (this.passwordReliability === 'strong') return this.colors.green;
-    return this.colors.gray;
-  }
-  getStyleForStrongPassword() {
-    if (this.passwordReliability === 'short') return this.colors.red;
-    if (this.passwordReliability === 'strong') return this.colors.green;
-    return this.colors.gray;
   }
 }

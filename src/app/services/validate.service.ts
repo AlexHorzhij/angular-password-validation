@@ -48,4 +48,13 @@ export class ValidateService {
     }
     return message;
   }
+
+  validateLanguage(value: string) {
+    const reg = /[^\P{L}a-z][^a-z]*/giu;
+    const test = value.match(reg);
+    if (!!test) {
+      alert('You can use only latin characters!');
+      return false;
+    }
+  }
 }

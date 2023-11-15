@@ -1,29 +1,18 @@
 <section class="container">
-  <input
-    type="text"
-    class="passwordInput"
-    (input)="getInputValue($event.target.value)"
-  />
-  <h1
-    class="validation_message"
-    [ngStyle]="{ color: getStyleForMediumPassword() }"
-  >
-    {{ getValidationMessage() }}
+  <form [formGroup]="formGroup" class="form">
+    <app-input
+      [formControlName]="'password'"
+      (getStatus)="onInputChange($event)"
+    ></app-input>
+  </form>
+
+  <h1 class="validation_message" [ngStyle]="{ color: mediumStyle }">
+    {{ validationMessage }}
   </h1>
+
   <div class="validation">
-    <div
-      [ngStyle]="{ backgroundColor: getStyleForEasyPassword() }"
-      class="validation_item"
-    ></div>
-
-    <div
-      [ngStyle]="{ backgroundColor: getStyleForMediumPassword() }"
-      class="validation_item"
-    ></div>
-
-    <div
-      [ngStyle]="{ backgroundColor: getStyleForStrongPassword() }"
-      class="validation_item"
-    ></div>
+    <app-validation-label [color]="easyStyle"></app-validation-label>
+    <app-validation-label [color]="mediumStyle"></app-validation-label>
+    <app-validation-label [color]="strongStyle"></app-validation-label>
   </div>
 </section>
